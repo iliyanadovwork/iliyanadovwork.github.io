@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Iliyan Adov</title>
+<meta name="description" content="Backend and full-stack engineer in London. I build content and trading systems and run them in production.">
+<style>
+  :root {
+    --bg: #fbfbfa; --fg: #16161a; --muted: #63636b; --faint: #8a8a92;
+    --rule: #e5e5e1; --link: #1a4fd6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f0f12; --fg: #ededee; --muted: #9a9aa2; --faint: #6e6e78;
+      --rule: #27272d; --link: #8ab0ff;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f0f12; --fg: #ededee; --muted: #9a9aa2; --faint: #6e6e78;
+    --rule: #27272d; --link: #8ab0ff;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 16px/1.62 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased; padding-inline: 20px;
+  }
+  .wrap { max-width: 660px; margin: 0 auto; padding-block: 76px 104px; }
+
+  h1 { font-size: 29px; letter-spacing: -0.021em; margin: 0 0 16px; font-weight: 650; }
+  .intro { color: var(--muted); margin: 0 0 10px; max-width: 56ch; }
+  .intro strong { color: var(--fg); font-weight: 550; }
+
+  section { margin-top: 56px; padding-top: 26px; border-top: 1px solid var(--rule); }
+  .head { display: flex; gap: 11px; align-items: baseline; flex-wrap: wrap; margin-bottom: 4px; }
+  h2 { font-size: 20px; letter-spacing: -0.017em; margin: 0; font-weight: 640; }
+  .tag {
+    font-size: 11px; color: var(--muted); border: 1px solid var(--rule);
+    border-radius: 3px; padding: 1.5px 7px; white-space: nowrap;
+  }
+  p { margin: 11px 0 0; color: var(--muted); }
+  p.lead { color: var(--fg); }
+  .url {
+    display: inline-block; margin-top: 13px; font-size: 13.5px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; word-break: break-all;
+  }
+  a { color: var(--link); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  h3 {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.09em;
+    color: var(--faint); font-weight: 650; margin: 24px 0 0;
+  }
+
+  /* Stat tiles: attested figures, not a chart. Text ink only, no series colour. */
+  .stats {
+    display: flex; flex-wrap: wrap; gap: 30px 44px;
+    margin: 22px 0 4px; padding: 20px 0; border-block: 1px solid var(--rule);
+  }
+  .stat { min-width: 96px; }
+  .stat b {
+    display: block; font-size: 25px; font-weight: 640;
+    letter-spacing: -0.025em; font-variant-numeric: tabular-nums; color: var(--fg);
+  }
+  .stat span { display: block; font-size: 12.5px; color: var(--faint); margin-top: 3px; }
+
+  footer {
+    margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--rule);
+    color: var(--muted); font-size: 14.5px;
+  }
+  footer a { color: var(--fg); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Iliyan Adov</h1>
+  <p class="intro">
+    Backend and full-stack engineer in London. I build content and trading systems and run
+    them in production myself.
+  </p>
+  <p class="intro">
+    <strong>BSc Computer Science, King's College London, First Class Honours.</strong>
+    Currently building FeedForce as its technical co-founder.
+  </p>
+
+  <section>
+    <div class="head"><h2>Sonotrade</h2><span class="tag">technical co-founder, 2025 to 2026</span></div>
+    <p class="lead">
+      A paper-trading market on music-artist indexes. A pipeline moved index prices with artist
+      listener counts, and users took long or short positions with virtual balances. I took
+      what I built to production and kept it there: architecture, deployment and operational
+      health, with no separate ops team.
+    </p>
+    <a class="url" href="https://sonotrade.io">sonotrade.io</a>
+  </section>
+
+  <section>
+    <div class="head"><h2>Sonotool</h2><span class="tag">video and carousel pipelines</span></div>
+    <p class="lead">
+      The publishing platform Sonotrade ran on, and the reason its channels grew. You design
+      a post on a canvas, the browser renders it, and it publishes to Instagram. The assets
+      never leave the machine for a third-party render service.
+    </p>
+
+    <div class="stats">
+      <div class="stat"><b>2bn+</b><span>views</span></div>
+      <div class="stat"><b>276,000</b><span>followers</span></div>
+      <div class="stat"><b>4,000+</b><span>waitlist signups</span></div>
+    </div>
+    <p style="font-size:13px;margin-top:10px;color:var(--faint)">
+      Reach across the channels Sonotool publishes into, to date.
+    </p>
+
+    <h3>Automating video posts</h3>
+    <p>
+      The export decodes the source into raw frames and redraws every one of them from the
+      exact render state the preview last used, so the file that downloads cannot drift from
+      what was on screen. WebCodecs for encode and decode, mediabunny for MP4 muxing. Frames
+      move through a bounded queue with backpressure, and a watchdog fails a silently stalled
+      decoder instead of hanging forever, because a decoder that stops reports nothing. The
+      queue behind it is driven from a Google Sheet, so a non-engineer can fill the pipeline.
+      It is the largest part of the codebase by a wide margin, 93 files and around 17,900 lines.
+    </p>
+
+    <h3>Automating carousel posts</h3>
+    <p>
+      Slides render headlessly through the real editor canvas rather than a reimplementation
+      of it, which is what keeps an automated post identical to a hand-made one. Slide data is
+      injected before the page loads, so the renderer takes no auth and reads nothing from the
+      database. It waits until every font and image is genuinely resident before it draws, so
+      a slide cannot go out in the wrong typeface, and it emits a 1080x1350 PNG at full fidelity.
+    </p>
+
+    <h3>Captions</h3>
+    <p>
+      Three tiers, tried in order and streamed as they arrive so a slow first tier never blocks
+      the interface. Grounded in live search results rather than written blind.
+    </p>
+
+    <p style="margin-top:22px">
+      55 API routes and 205 unit tests.
+    </p>
+    <a class="url" href="https://sonotoolv2.vercel.app/">sonotoolv2.vercel.app</a>
+  </section>
+
+  <section>
+    <div class="head"><h2>FeedForce</h2><span class="tag">technical co-founder, now</span></div>
+    <p class="lead">
+      Sonotool is where FeedForce started. Having built the thing once for ourselves, the
+      obvious next question was what it looks like generalised for other people, and that is
+      what FeedForce is: an AI workspace for social content, which I'm building as its
+      technical co-founder.
+    </p>
+    <p>
+      A brand signs up with its Instagram. An agent in that user's own sandbox studies the feed
+      and builds the brand's post templates, then drafts posts in them for the team to edit and
+      publish. The agent works as that user, so the database's access rules still apply, and
+      model and research API keys never enter the sandbox: its firewall adds them on the way
+      out. Each user gets one agent turn at a time, held by a lease in Postgres, because two
+      overlapping turns overwrote each other's work on the first real run. Before a build
+      reaches anyone, plain code checks it and a separate reviewer that cannot change anything
+      has to pass it. Chart code the agent writes runs in a sealed worker with no network.
+    </p>
+    <p style="margin-top:22px">
+      1,082 unit tests.
+    </p>
+    <a class="url" href="https://www.feedforce.ai/">feedforce.ai</a>
+  </section>
+
+  <section>
+    <div class="head"><h2>Cryptodex</h2><span class="tag">deployed</span></div>
+    <p class="lead">
+      A paper-trading exchange. Live Binance L2 depth is mirrored into resting orders owned by
+      a house account, and the same matcher fills them as it fills real user orders, rebuilt at
+      the top of every two-second cycle. Three Node services behind one gateway on a single Graviton box.
+    </p>
+    <a class="url" href="https://cryptodex.52-56-42-231.sslip.io">cryptodex.52-56-42-231.sslip.io</a>
+  </section>
+
+  <section>
+    <div class="head"><h2>wallet-ledger</h2><span class="tag">Java, concurrency</span></div>
+    <p class="lead">
+      One account balance, kept correct four ways. Two requests that touch the same account at
+      the same time can overwrite each other, and a test here proves it: 480 concurrent transfers
+      through the unguarded version change the total in every run.
+    </p>
+    <p>
+      The other three fix it at different prices. A single lock serialises everything. Optimistic
+      locking retries on conflict and, under heavy contention, finished 326 to 345 of 480 transfers
+      after more than 1,600 retries. Row locks ordered by account id finished all 480 with no
+      retries, and the suite shows the deadlock they cause without that ordering. Money moves once
+      per idempotency key, claimed in Redis. Spring Boot, Postgres and Redis, tested against real
+      instances: 69 tests.
+    </p>
+    <a class="url" href="https://github.com/iliyanadovwork/wallet-ledger">github.com/iliyanadovwork/wallet-ledger</a>
+  </section>
+
+  <footer>
+    <a href="mailto:iliyanadovwork@gmail.com">iliyanadovwork@gmail.com</a>
+    &nbsp;·&nbsp;
+    <a href="https://github.com/iliyanadovwork">github.com/iliyanadovwork</a>
+  </footer>
+
+</div>
+</body>
+</html>
